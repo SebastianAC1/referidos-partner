@@ -201,6 +201,16 @@
       margin-bottom: 18px;
     }
 
+    .otra-campana-box {
+      display: none;
+      margin-top: -6px;
+      padding: 14px;
+      background: #F6FAFA;
+      border: 1.5px dashed var(--teal);
+      border-radius: 14px;
+      animation: fadeUp 0.25s ease;
+    }
+
     label {
       display: block;
       font-size: 0.86rem;
@@ -226,6 +236,18 @@
       background: #FAFDFC;
       transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
       outline: none;
+    }
+
+    input.mayuscula {
+      text-transform: uppercase;
+    }
+
+    input.mayuscula::placeholder {
+      text-transform: none;
+    }
+
+    select {
+      text-transform: uppercase;
     }
 
     input:focus, select:focus {
@@ -282,7 +304,7 @@
       padding: 12px 10px;
       border: 1.5px solid var(--border);
       border-radius: 12px;
-      font-size: 0.86rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--muted);
       background: #FAFDFC;
@@ -493,7 +515,7 @@
     <section id="screenStep1" class="screen">
       <div class="form-group" id="fg-asesorNombre">
         <label for="asesorNombre">Nombre completo del asesor <span class="req">*</span></label>
-        <input type="text" id="asesorNombre" placeholder="Ej. Juan Carlos Pérez López" autocomplete="name" />
+        <input type="text" id="asesorNombre" class="mayuscula" placeholder="Ej. JUAN CARLOS PÉREZ LÓPEZ" autocomplete="name" oninput="aMayusculas(this)" />
         <div class="error-msg">Ingresa tus nombres y apellidos completos.</div>
       </div>
 
@@ -505,8 +527,8 @@
             <span>DNI</span>
           </label>
           <label class="doc-option">
-            <input type="radio" name="asesorTipoDoc" value="Carné de Extranjería" onchange="updateDocRules('asesor')" />
-            <span>Carné de Extranjería</span>
+            <input type="radio" name="asesorTipoDoc" value="CARNÉ DE EXTRANJERÍA" onchange="updateDocRules('asesor')" />
+            <span>CARNÉ DE EXTRANJERÍA</span>
           </label>
         </div>
       </div>
@@ -526,20 +548,26 @@
 
       <div class="form-group" id="fg-asesorCampana">
         <label for="asesorCampana">Campaña en la que te encuentras actualmente <span class="req">*</span></label>
-        <select id="asesorCampana">
-          <option value="">Selecciona tu campaña...</option>
-          <option value="Multicanal">Multicanal</option>
-          <option value="Atención al Cliente">Atención al Cliente</option>
-          <option value="Portabilidad Postpago">Portabilidad Postpago</option>
-          <option value="Migraciones">Migraciones</option>
-          <option value="Renovación Out">Renovación Out</option>
-          <option value="Renovación Digital">Renovación Digital</option>
-          <option value="Hogar Out">Hogar Out</option>
-          <option value="Alfin Banco">Alfin Banco</option>
-          <option value="Convergente">Convergente</option>
-          <option value="Otra">Otra</option>
+        <select id="asesorCampana" onchange="toggleOtraCampana('asesor')">
+          <option value="">SELECCIONA TU CAMPAÑA...</option>
+          <option value="ATENCIÓN AL CLIENTE">ATENCIÓN AL CLIENTE</option>
+          <option value="RENOVACIONES DIGITALES">RENOVACIONES DIGITALES</option>
+          <option value="RENOVACIÓN OUTBOUND">RENOVACIÓN OUTBOUND</option>
+          <option value="PORTABILIDAD POSTPAGO">PORTABILIDAD POSTPAGO</option>
+          <option value="PORTABILIDAD PREPAGO">PORTABILIDAD PREPAGO</option>
+          <option value="MULTICANAL">MULTICANAL</option>
+          <option value="MIGRACIONES">MIGRACIONES</option>
+          <option value="ALFIN BANCO">ALFIN BANCO</option>
+          <option value="HOGAR OUTBOUND">HOGAR OUTBOUND</option>
+          <option value="OTRAS">OTRAS</option>
         </select>
         <div class="error-msg">Selecciona tu campaña actual.</div>
+      </div>
+
+      <div class="form-group otra-campana-box" id="fg-asesorCampanaOtra">
+        <label for="asesorCampanaOtra">¿A qué campaña perteneces? <span class="req">*</span></label>
+        <input type="text" id="asesorCampanaOtra" class="mayuscula" placeholder="DIGITA EL NOMBRE DE TU CAMPAÑA" oninput="aMayusculas(this); clearError('fg-asesorCampanaOtra')" />
+        <div class="error-msg">Por favor, especifica a qué campaña perteneces.</div>
       </div>
 
       <div class="btn-row">
@@ -552,7 +580,7 @@
     <section id="screenStep2" class="screen">
       <div class="form-group" id="fg-referidoNombre">
         <label for="referidoNombre">Nombre completo del referido <span class="req">*</span></label>
-        <input type="text" id="referidoNombre" placeholder="Ej. María Fernanda Quispe Ruiz" />
+        <input type="text" id="referidoNombre" class="mayuscula" placeholder="Ej. MARÍA FERNANDA QUISPE RUIZ" oninput="aMayusculas(this)" />
         <div class="error-msg">Ingresa los nombres y apellidos completos de tu referido.</div>
       </div>
 
@@ -564,8 +592,8 @@
             <span>DNI</span>
           </label>
           <label class="doc-option">
-            <input type="radio" name="referidoTipoDoc" value="Carné de Extranjería" onchange="updateDocRules('referido')" />
-            <span>Carné de Extranjería</span>
+            <input type="radio" name="referidoTipoDoc" value="CARNÉ DE EXTRANJERÍA" onchange="updateDocRules('referido')" />
+            <span>CARNÉ DE EXTRANJERÍA</span>
           </label>
         </div>
       </div>
@@ -585,20 +613,26 @@
 
       <div class="form-group" id="fg-referidoCampana">
         <label for="referidoCampana">Campaña a la que postula <span class="req">*</span></label>
-        <select id="referidoCampana">
-          <option value="">Selecciona la campaña...</option>
-          <option value="Multicanal">Multicanal</option>
-          <option value="Atención al Cliente">Atención al Cliente</option>
-          <option value="Portabilidad Postpago">Portabilidad Postpago</option>
-          <option value="Migraciones">Migraciones</option>
-          <option value="Renovación Out">Renovación Out</option>
-          <option value="Renovación Digital">Renovación Digital</option>
-          <option value="Hogar Out">Hogar Out</option>
-          <option value="Alfin Banco">Alfin Banco</option>
-          <option value="Convergente">Convergente</option>
-          <option value="Cualquiera disponible">Cualquiera disponible</option>
+        <select id="referidoCampana" onchange="toggleOtraCampana('referido')">
+          <option value="">SELECCIONA LA CAMPAÑA...</option>
+          <option value="ATENCIÓN AL CLIENTE">ATENCIÓN AL CLIENTE</option>
+          <option value="RENOVACIONES DIGITALES">RENOVACIONES DIGITALES</option>
+          <option value="RENOVACIÓN OUTBOUND">RENOVACIÓN OUTBOUND</option>
+          <option value="PORTABILIDAD POSTPAGO">PORTABILIDAD POSTPAGO</option>
+          <option value="PORTABILIDAD PREPAGO">PORTABILIDAD PREPAGO</option>
+          <option value="MULTICANAL">MULTICANAL</option>
+          <option value="MIGRACIONES">MIGRACIONES</option>
+          <option value="ALFIN BANCO">ALFIN BANCO</option>
+          <option value="HOGAR OUTBOUND">HOGAR OUTBOUND</option>
+          <option value="OTRAS">OTRAS</option>
         </select>
         <div class="error-msg">Selecciona la campaña a la que postula.</div>
+      </div>
+
+      <div class="form-group otra-campana-box" id="fg-referidoCampanaOtra">
+        <label for="referidoCampanaOtra">¿A qué campaña postula tu referido? <span class="req">*</span></label>
+        <input type="text" id="referidoCampanaOtra" class="mayuscula" placeholder="DIGITA EL NOMBRE DE LA CAMPAÑA" oninput="aMayusculas(this); clearError('fg-referidoCampanaOtra')" />
+        <div class="error-msg">Por favor, especifica la campaña a la que postula.</div>
       </div>
 
       <div id="submitError" class="error-msg" style="margin-bottom:12px; text-align:center;"></div>
@@ -680,6 +714,10 @@
       input.value = input.value.replace(/\D/g, '');
     }
 
+    function aMayusculas(input) {
+      input.value = input.value.toUpperCase();
+    }
+
     function getTipoDoc(prefix) {
       return document.querySelector(`input[name="${prefix}TipoDoc"]:checked`).value;
     }
@@ -700,6 +738,22 @@
         hint.textContent = "Incluye todos los ceros iniciales de tu Carné de Extranjería.";
       }
       clearError(`fg-${prefix}NumDoc`);
+    }
+
+    function toggleOtraCampana(prefix) {
+      const select = document.getElementById(`${prefix}Campana`);
+      const box = document.getElementById(`fg-${prefix}CampanaOtra`);
+      const input = document.getElementById(`${prefix}CampanaOtra`);
+      clearError(`fg-${prefix}Campana`);
+
+      if (select.value === 'OTRAS') {
+        box.style.display = 'block';
+        input.focus();
+      } else {
+        box.style.display = 'none';
+        input.value = '';
+        clearError(`fg-${prefix}CampanaOtra`);
+      }
     }
 
     function setError(groupId, customMsg) {
@@ -757,7 +811,7 @@
         setError(`fg-${prefix}NumDoc`, 'El DNI debe tener exactamente 8 dígitos.');
         return false;
       }
-      if (tipo === 'Carné de Extranjería' && (val.length < 9 || val.length > 12)) {
+      if (tipo === 'CARNÉ DE EXTRANJERÍA' && (val.length < 9 || val.length > 12)) {
         setError(`fg-${prefix}NumDoc`, 'El Carné de Extranjería debe tener entre 9 y 12 dígitos.');
         return false;
       }
@@ -770,11 +824,24 @@
       const nombre = document.getElementById('asesorNombre').value.trim();
       const cel = document.getElementById('asesorCelular').value.trim();
       const camp = document.getElementById('asesorCampana').value;
+      const campOtra = document.getElementById('asesorCampanaOtra').value.trim();
 
       if (nombre.length < 5) { setError('fg-asesorNombre'); ok = false; } else clearError('fg-asesorNombre');
       if (!validarDocumento('asesor')) ok = false;
       if (!/^9\d{8}$/.test(cel)) { setError('fg-asesorCelular'); ok = false; } else clearError('fg-asesorCelular');
-      if (!camp) { setError('fg-asesorCampana'); ok = false; } else clearError('fg-asesorCampana');
+
+      if (!camp) {
+        setError('fg-asesorCampana');
+        ok = false;
+      } else {
+        clearError('fg-asesorCampana');
+        if (camp === 'OTRAS' && campOtra.length < 2) {
+          setError('fg-asesorCampanaOtra');
+          ok = false;
+        } else {
+          clearError('fg-asesorCampanaOtra');
+        }
+      }
 
       if (ok) goToStep(2);
     }
@@ -784,6 +851,7 @@
       const refNombre = document.getElementById('referidoNombre').value.trim();
       const refCel = document.getElementById('referidoCelular').value.trim();
       const refCamp = document.getElementById('referidoCampana').value;
+      const refCampOtra = document.getElementById('referidoCampanaOtra').value.trim();
       const asesorDoc = document.getElementById('asesorNumDoc').value.trim();
       const refDoc = document.getElementById('referidoNumDoc').value.trim();
 
@@ -794,21 +862,40 @@
         ok = false;
       }
       if (!/^9\d{8}$/.test(refCel)) { setError('fg-referidoCelular'); ok = false; } else clearError('fg-referidoCelular');
-      if (!refCamp) { setError('fg-referidoCampana'); ok = false; } else clearError('fg-referidoCampana');
+
+      if (!refCamp) {
+        setError('fg-referidoCampana');
+        ok = false;
+      } else {
+        clearError('fg-referidoCampana');
+        if (refCamp === 'OTRAS' && refCampOtra.length < 2) {
+          setError('fg-referidoCampanaOtra');
+          ok = false;
+        } else {
+          clearError('fg-referidoCampanaOtra');
+        }
+      }
 
       if (!ok) return;
 
+      const asesorCampSel = document.getElementById('asesorCampana').value;
+      const asesorCampFinal = asesorCampSel === 'OTRAS'
+        ? document.getElementById('asesorCampanaOtra').value.trim()
+        : asesorCampSel;
+      const refCampFinal = refCamp === 'OTRAS' ? refCampOtra : refCamp;
+
+      // Todo se envía en MAYÚSCULAS al Google Sheet
       const payload = {
-        asesorNombre: document.getElementById('asesorNombre').value.trim(),
-        asesorTipoDoc: getTipoDoc('asesor'),
-        asesorNumDoc: asesorDoc,
+        asesorNombre: document.getElementById('asesorNombre').value.trim().toUpperCase(),
+        asesorTipoDoc: getTipoDoc('asesor').toUpperCase(),
+        asesorNumDoc: asesorDoc.toUpperCase(),
         asesorCelular: document.getElementById('asesorCelular').value.trim(),
-        asesorCampana: document.getElementById('asesorCampana').value,
-        referidoNombre: refNombre,
-        referidoTipoDoc: getTipoDoc('referido'),
-        referidoNumDoc: refDoc,
+        asesorCampana: asesorCampFinal.toUpperCase(),
+        referidoNombre: refNombre.toUpperCase(),
+        referidoTipoDoc: getTipoDoc('referido').toUpperCase(),
+        referidoNumDoc: refDoc.toUpperCase(),
         referidoCelular: refCel,
-        referidoCampana: refCamp
+        referidoCampana: refCampFinal.toUpperCase()
       };
 
       const btn = document.getElementById('btnSubmit');
@@ -849,15 +936,37 @@
       }
     }
 
+    // Limpia todo el formulario (asesor y referido) y regresa a la portada principal
     function registrarOtro() {
+      // Limpiar datos del asesor
+      document.getElementById('asesorNombre').value = '';
+      document.getElementById('asesorNumDoc').value = '';
+      document.getElementById('asesorCelular').value = '';
+      document.getElementById('asesorCampana').value = '';
+      document.getElementById('asesorCampanaOtra').value = '';
+      toggleOtraCampana('asesor');
+      document.querySelector('input[name="asesorTipoDoc"][value="DNI"]').checked = true;
+      updateDocRules('asesor');
+
+      // Limpiar datos del referido
       document.getElementById('referidoNombre').value = '';
       document.getElementById('referidoNumDoc').value = '';
       document.getElementById('referidoCelular').value = '';
       document.getElementById('referidoCampana').value = '';
+      document.getElementById('referidoCampanaOtra').value = '';
+      toggleOtraCampana('referido');
       document.querySelector('input[name="referidoTipoDoc"][value="DNI"]').checked = true;
       updateDocRules('referido');
-      ['fg-referidoNombre', 'fg-referidoNumDoc', 'fg-referidoCelular', 'fg-referidoCampana'].forEach(clearError);
-      goToStep(2);
+
+      // Limpiar mensajes de error
+      [
+        'fg-asesorNombre', 'fg-asesorNumDoc', 'fg-asesorCelular', 'fg-asesorCampana', 'fg-asesorCampanaOtra',
+        'fg-referidoNombre', 'fg-referidoNumDoc', 'fg-referidoCelular', 'fg-referidoCampana', 'fg-referidoCampanaOtra'
+      ].forEach(clearError);
+      document.getElementById('submitError').style.display = 'none';
+
+      // Volver a la portada de inicio
+      goToWelcome();
     }
 
     // GENERADOR DE QR INTEGRADO (?qr=1)
